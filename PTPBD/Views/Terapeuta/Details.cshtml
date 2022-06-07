@@ -1,0 +1,49 @@
+﻿@model List<PTPBD.Models.TableViewModels.TerapeutaTableViewModel>
+@{
+    ViewBag.Title = "Detalles del Terapeuta";
+}
+
+<section class="index-container">
+    <div class="container-details">
+        <h2>Detalles del terapeuta</h2>
+        <span class="">ID: @Model.First().Id_Terapeuta</span>
+        <span class="">Nombre: @Model.First().Nombre @Model.First().Apellido_Paterno @Model.First().Apellido_Materno</span>
+        <span class="">Organizacion: @Model.First().Organizacion</span>
+        <span class="">Grado: @Model.First().Grado</span>
+        <span class="">Escolaridad: @Model.First().Escolaridad</span>
+        <span class="">Universidad: @Model.First().Universidad</span>
+        <span class="">Matricula: @Model.First().Matricula</span>
+    </div>
+
+    <div class="container-btns">
+        <input onclick="document.location.href = '@Url.Content("~/Terapeuta/VerPacientes/" + Model.First().Id_Terapeuta)'" type="button" value="Ver pacientes" />
+        <input type="button" class="btn" onclick="content(@Model.First().Id_Terapeuta);" id="btn2" value="Ver expedientes" />
+    </div>
+
+    <input onclick="document.location.href = '@Url.Content("~/Terapeuta/Index")'" type="button" value="Regresar" />
+
+</section>
+
+<style>
+    .index-container {
+        width: 80%;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 5px;
+    }
+    .index-container .container-details{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .container-details h2{
+        text-align: center;
+    }
+
+    .container-details span{
+       margin: 10px 0;
+       font-size: 18px;
+    }
+
+</style>

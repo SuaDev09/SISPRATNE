@@ -1,0 +1,99 @@
+﻿@model PTPBD.Models.ViewModels.EditTerapeutaViewModel
+
+@{
+    ViewBag.Title = "Editar Terapeuta";
+}
+
+
+<section class="index-container">
+    <div class="container">
+        <h2>Editar terapeuta</h2>
+
+        <div class="container-formulario">
+            @using (Html.BeginForm("Edit", "Terapeuta", FormMethod.Post, new { role = "form", @class = "" }))
+            {
+                @Html.HiddenFor(model => model.Id_Terapeuta)
+                @Html.AntiForgeryToken()
+
+                @Html.ValidationMessage("Error", new { @class = "" })
+
+                @Html.LabelFor(model => model.Nombre)
+                @Html.TextBoxFor(model => model.Nombre, new { @class = "" })
+                @Html.ValidationMessage("Nombre", new { @class = "" })
+
+                @Html.LabelFor(model => model.Apellido_Paterno)
+                @Html.TextBoxFor(model => model.Apellido_Paterno, new { @class = "" })
+                @Html.ValidationMessage("Apellido_Paterno", new { @class = "" })
+
+                @Html.LabelFor(model => model.Apellido_Materno)
+                @Html.TextBoxFor(model => model.Apellido_Materno, new { @class = "" })
+                @Html.ValidationMessage("Apellido_Materno", new { @class = "" })
+
+                @Html.LabelFor(model => model.Matricula)
+                @Html.TextBoxFor(model => model.Matricula, new { @class = "", @type = "number" })
+                @Html.ValidationMessage("Matricula", new { @class = "" })
+
+                @Html.LabelFor(model => model.Organizacion)
+                @Html.TextBoxFor(model => model.Organizacion, new { @class = "" })
+                @Html.ValidationMessage("Organizacion", new { @class = "" })
+
+                @Html.LabelFor(model => model.Universidad)
+                @Html.TextBoxFor(model => model.Universidad, new { @class = "" })
+                @Html.ValidationMessage("Universidad", new { @class = "" })
+
+                @Html.LabelFor(model => model.Grado)
+                @Html.TextBoxFor(model => model.Grado, new { @class = "" })
+                @Html.ValidationMessage("Grado", new { @class = "" })
+
+                @Html.LabelFor(model => model.Escolaridad)
+                @Html.TextBoxFor(model => model.Escolaridad, new { @class = "" })
+                @Html.ValidationMessage("Escolaridad", new { @class = "" })
+
+                <div>
+                    <input type="submit" class="btn-save" value="Editar" />
+                </div>
+
+                <input onclick="document.location.href = '@Url.Content("~/Terapeuta/Index")'" type="button" value="Regresar" />
+
+            }
+        </div>
+    </div>
+</section>
+
+<style>
+    .index-container {
+        width: 70%;
+        margin: 0 auto;
+        padding: 30px;
+    }
+
+        .index-container .container {
+            width: 100%;
+            border-radius: 10px;
+            padding: 30px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 20px 5px darkgray;
+        }
+
+            .index-container .container h2 {
+                text-align: center;
+            }
+
+    .formulario {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .formulario {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .formulario .formulario-input {
+            margin: 20px 0;
+            height: 20px;
+            padding: 5px;
+        }
+</style>

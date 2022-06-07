@@ -1,0 +1,109 @@
+﻿@model IEnumerable<PTPBD.Models.Paciente>
+@{
+    ViewBag.Title = "Pacientes";
+}
+
+<section class="index-container">
+    <div class="container">
+        <h2>Pacientes</h2>
+
+        <div class="container-btn">
+            <div>
+                <input type="button" class=" " onclick="document.location.href ='@Url.Content("~/Paciente/Add")'" value="Agregar nuevo paciente" />
+            </div>
+        </div>
+
+        <div class="container-table">
+            <table class="table">
+                <tr>
+                    <th class="column1">Id</th>
+                    <th class="column2">Nombre</th>
+                    <th class="column3">Edad</th>
+                    <th class="column4">Genero</th>
+                    <th class="column5">FechaNa</th>
+                    <th class="column6">Escolaridad</th>
+                    <th class="column7">DireccionPost</th>
+                    <th class="column8">Telefono</th>
+                    <th class="column9">Padecimiento</th>
+                    <th class="column10">Acciones</th>
+                </tr>
+
+                @foreach (var oElemento in Model)
+                {
+                    <tr>
+                        <td>@oElemento.Id_Paciente</td>
+                        <td>@oElemento.Nombre @oElemento.Apellido_Paterno @oElemento.Apellido_Materno</td>
+                        <td>@oElemento.Edad</td>
+                        <td>@oElemento.Genero</td>
+                        <td>@Convert.ToDateTime(oElemento.FechaNa).ToString("yyyy-MM-dd")</td>
+                        <td>@oElemento.Escolaridad</td>
+                        <td>@oElemento.DireccionPost</td>
+                        <td>@oElemento.Telefono</td>
+                        <td>@oElemento.Padecimiento</td>
+
+                        <td class="column10-btn">
+                            <input onclick="document.location.href = '@Url.Content("~/Paciente/Details/" + oElemento.Id_Paciente)'" type="button" value="Ver" />
+                            <input onclick="jsDelete(@oElemento.Id_Paciente);" type="button" value="Eliminar" />
+                            <input onclick="document.location.href = '@Url.Content("~/Paciente/Edit/" + oElemento.Id_Paciente)'" type="button" value="Editar" />
+                        </td>
+                    </tr>
+                }
+
+
+            </table>
+        </div>
+    </div>
+    <input onclick="document.location.href = '@Url.Content("~/")'" type="button" value="Regresar" />
+</section>
+
+<script>
+    function jsDelete(id) {
+        if (confirm("¿Estas seguro de eliminar este Paciente? Se eliminaran todos sus datos.")) {
+            url = "@Url.Content("~/Paciente/Delete")" + "/" + id;
+
+            //Peticion AJAX por post que tiene un callback
+            //data sera regresado al metodo post
+            $.post(url, function (data) {
+                if (data == "1") {
+                    document.location.href = "@Url.Content("~/Paciente")";
+                } else {
+                    alert("Ha ocurrido un error.")
+                }
+            })
+        }
+    }
+
+</script>
+
+<style>
+    .index-container {
+        width: 80%;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 0 20px 5px darkgray;
+    }
+
+        .index-container .container {
+            display: flex;
+            flex-direction: column;
+        }
+
+    .table {
+        width: 100%;
+        border-radius: 5px;
+        margin: 20px 0;
+    }
+
+        .table tr th {
+            background-color: darkcyan;
+            color: white;
+        }
+
+        .table tr .column10-btn {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around
+        }
+</style>

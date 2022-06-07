@@ -1,0 +1,641 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PRATNEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Expediente">
+          <Key>
+            <PropertyRef Name="Id_Expediente" />
+          </Key>
+          <Property Name="Id_Expediente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Estado_Paciente" Type="int" />
+        </EntityType>
+        <EntityType Name="Expediente_Compuesto_por">
+          <Key>
+            <PropertyRef Name="Id_Se_Conforma_Por" />
+          </Key>
+          <Property Name="Id_Se_Conforma_Por" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FK_Id_Expediente" Type="int" Nullable="false" />
+          <Property Name="FK_Id_SolicitudAtencion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Paciente">
+          <Key>
+            <PropertyRef Name="Id_Paciente" />
+          </Key>
+          <Property Name="Id_Paciente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="18" />
+          <Property Name="Apellido_Paterno" Type="varchar" MaxLength="18" />
+          <Property Name="Apellido_Materno" Type="varchar" MaxLength="18" />
+          <Property Name="Edad" Type="varchar" MaxLength="5" />
+          <Property Name="Genero" Type="varchar" MaxLength="18" />
+          <Property Name="FechaNa" Type="date" />
+          <Property Name="Escolaridad" Type="varchar" MaxLength="17" />
+          <Property Name="DireccionPost" Type="int" />
+          <Property Name="Telefono" Type="int" />
+          <Property Name="Padecimiento" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Paciente_Tiene">
+          <Key>
+            <PropertyRef Name="Id_PacienteTiene" />
+          </Key>
+          <Property Name="Id_PacienteTiene" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FK_Id_Paciente" Type="int" Nullable="false" />
+          <Property Name="FK_Id_Expediente" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SolicitudAtencion">
+          <Key>
+            <PropertyRef Name="Id_SolicitudAtencion" />
+          </Key>
+          <Property Name="Id_SolicitudAtencion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PerVive" Type="text" />
+          <Property Name="MotivoConsulta" Type="text" />
+          <Property Name="HistoriaCaso" Type="text" />
+          <Property Name="PruebasAplicadas" Type="text" />
+          <Property Name="Nombre_EstudianteApoyo" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="Terapeuta">
+          <Key>
+            <PropertyRef Name="Id_Terapeuta" />
+          </Key>
+          <Property Name="Id_Terapeuta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Organizacion" Type="varchar" MaxLength="20" />
+          <Property Name="Matricula" Type="varchar" MaxLength="17" />
+          <Property Name="Universidad" Type="varchar" MaxLength="20" />
+          <Property Name="Grado" Type="varchar" MaxLength="20" />
+          <Property Name="Nombre" Type="varchar" MaxLength="18" />
+          <Property Name="Apellido_Paterno" Type="varchar" MaxLength="18" />
+          <Property Name="Apellido_Materno" Type="varchar" MaxLength="18" />
+          <Property Name="Escolaridad" Type="varchar" MaxLength="18" />
+        </EntityType>
+        <EntityType Name="Terapeuta_Atiende">
+          <Key>
+            <PropertyRef Name="Id_Atiende" />
+          </Key>
+          <Property Name="Id_Atiende" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FK_Id_Terapeuta" Type="int" Nullable="false" />
+          <Property Name="FK_Id_Paciente" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Terapeuta_Realiza">
+          <Key>
+            <PropertyRef Name="Id_TerapeutaRealiza" />
+          </Key>
+          <Property Name="Id_TerapeutaRealiza" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FK_Id_Terapeuta" Type="int" Nullable="false" />
+          <Property Name="FK_Id_Expediente" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="fk_Id_Expediente">
+          <End Role="Expediente" Type="Self.Expediente" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Terapeuta_Realiza" Type="Self.Terapeuta_Realiza" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Expediente">
+              <PropertyRef Name="Id_Expediente" />
+            </Principal>
+            <Dependent Role="Terapeuta_Realiza">
+              <PropertyRef Name="FK_Id_Expediente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Id_Expediente_SeConforma">
+          <End Role="Expediente" Type="Self.Expediente" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Expediente_Compuesto_por" Type="Self.Expediente_Compuesto_por" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Expediente">
+              <PropertyRef Name="Id_Expediente" />
+            </Principal>
+            <Dependent Role="Expediente_Compuesto_por">
+              <PropertyRef Name="FK_Id_Expediente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Id_Expediente_Tiene">
+          <End Role="Expediente" Type="Self.Expediente" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Paciente_Tiene" Type="Self.Paciente_Tiene" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Expediente">
+              <PropertyRef Name="Id_Expediente" />
+            </Principal>
+            <Dependent Role="Paciente_Tiene">
+              <PropertyRef Name="FK_Id_Expediente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Id_Paciente_Atiende">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Terapeuta_Atiende" Type="Self.Terapeuta_Atiende" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="Id_Paciente" />
+            </Principal>
+            <Dependent Role="Terapeuta_Atiende">
+              <PropertyRef Name="FK_Id_Paciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Id_Paciente_Tiene">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Paciente_Tiene" Type="Self.Paciente_Tiene" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="Id_Paciente" />
+            </Principal>
+            <Dependent Role="Paciente_Tiene">
+              <PropertyRef Name="FK_Id_Paciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Id_SolicitudAtencion_SeConforma">
+          <End Role="SolicitudAtencion" Type="Self.SolicitudAtencion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Expediente_Compuesto_por" Type="Self.Expediente_Compuesto_por" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SolicitudAtencion">
+              <PropertyRef Name="Id_SolicitudAtencion" />
+            </Principal>
+            <Dependent Role="Expediente_Compuesto_por">
+              <PropertyRef Name="FK_Id_SolicitudAtencion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Id_Terapeuta">
+          <End Role="Terapeuta" Type="Self.Terapeuta" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Terapeuta_Realiza" Type="Self.Terapeuta_Realiza" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Terapeuta">
+              <PropertyRef Name="Id_Terapeuta" />
+            </Principal>
+            <Dependent Role="Terapeuta_Realiza">
+              <PropertyRef Name="FK_Id_Terapeuta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Id_Terapeuta_Atiende">
+          <End Role="Terapeuta" Type="Self.Terapeuta" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Terapeuta_Atiende" Type="Self.Terapeuta_Atiende" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Terapeuta">
+              <PropertyRef Name="Id_Terapeuta" />
+            </Principal>
+            <Dependent Role="Terapeuta_Atiende">
+              <PropertyRef Name="FK_Id_Terapeuta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PRATNEModelStoreContainer">
+          <EntitySet Name="Expediente" EntityType="Self.Expediente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Expediente_Compuesto_por" EntityType="Self.Expediente_Compuesto_por" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paciente" EntityType="Self.Paciente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paciente_Tiene" EntityType="Self.Paciente_Tiene" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SolicitudAtencion" EntityType="Self.SolicitudAtencion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Terapeuta" EntityType="Self.Terapeuta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Terapeuta_Atiende" EntityType="Self.Terapeuta_Atiende" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Terapeuta_Realiza" EntityType="Self.Terapeuta_Realiza" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_Id_Expediente" Association="Self.fk_Id_Expediente">
+            <End Role="Expediente" EntitySet="Expediente" />
+            <End Role="Terapeuta_Realiza" EntitySet="Terapeuta_Realiza" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Id_Expediente_SeConforma" Association="Self.fk_Id_Expediente_SeConforma">
+            <End Role="Expediente" EntitySet="Expediente" />
+            <End Role="Expediente_Compuesto_por" EntitySet="Expediente_Compuesto_por" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Id_Expediente_Tiene" Association="Self.fk_Id_Expediente_Tiene">
+            <End Role="Expediente" EntitySet="Expediente" />
+            <End Role="Paciente_Tiene" EntitySet="Paciente_Tiene" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Id_Paciente_Atiende" Association="Self.fk_Id_Paciente_Atiende">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Terapeuta_Atiende" EntitySet="Terapeuta_Atiende" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Id_Paciente_Tiene" Association="Self.fk_Id_Paciente_Tiene">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Paciente_Tiene" EntitySet="Paciente_Tiene" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Id_SolicitudAtencion_SeConforma" Association="Self.fk_Id_SolicitudAtencion_SeConforma">
+            <End Role="SolicitudAtencion" EntitySet="SolicitudAtencion" />
+            <End Role="Expediente_Compuesto_por" EntitySet="Expediente_Compuesto_por" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Id_Terapeuta" Association="Self.fk_Id_Terapeuta">
+            <End Role="Terapeuta" EntitySet="Terapeuta" />
+            <End Role="Terapeuta_Realiza" EntitySet="Terapeuta_Realiza" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Id_Terapeuta_Atiende" Association="Self.fk_Id_Terapeuta_Atiende">
+            <End Role="Terapeuta" EntitySet="Terapeuta" />
+            <End Role="Terapeuta_Atiende" EntitySet="Terapeuta_Atiende" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PRATNEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Expediente">
+          <Key>
+            <PropertyRef Name="Id_Expediente" />
+          </Key>
+          <Property Name="Id_Expediente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Estado_Paciente" Type="Int32" />
+          <NavigationProperty Name="Terapeuta_Realiza" Relationship="Self.fk_Id_Expediente" FromRole="Expediente" ToRole="Terapeuta_Realiza" />
+          <NavigationProperty Name="Expediente_Compuesto_por" Relationship="Self.fk_Id_Expediente_SeConforma" FromRole="Expediente" ToRole="Expediente_Compuesto_por" />
+          <NavigationProperty Name="Paciente_Tiene" Relationship="Self.fk_Id_Expediente_Tiene" FromRole="Expediente" ToRole="Paciente_Tiene" />
+        </EntityType>
+        <EntityType Name="Expediente_Compuesto_por">
+          <Key>
+            <PropertyRef Name="Id_Se_Conforma_Por" />
+          </Key>
+          <Property Name="Id_Se_Conforma_Por" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_Id_Expediente" Type="Int32" Nullable="false" />
+          <Property Name="FK_Id_SolicitudAtencion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Expediente" Relationship="Self.fk_Id_Expediente_SeConforma" FromRole="Expediente_Compuesto_por" ToRole="Expediente" />
+          <NavigationProperty Name="SolicitudAtencion" Relationship="Self.fk_Id_SolicitudAtencion_SeConforma" FromRole="Expediente_Compuesto_por" ToRole="SolicitudAtencion" />
+        </EntityType>
+        <EntityType Name="Paciente">
+          <Key>
+            <PropertyRef Name="Id_Paciente" />
+          </Key>
+          <Property Name="Id_Paciente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido_Paterno" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido_Materno" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
+          <Property Name="Edad" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Genero" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
+          <Property Name="FechaNa" Type="DateTime" Precision="0" />
+          <Property Name="Escolaridad" Type="String" MaxLength="17" FixedLength="false" Unicode="false" />
+          <Property Name="DireccionPost" Type="Int32" />
+          <Property Name="Telefono" Type="Int32" />
+          <Property Name="Padecimiento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Terapeuta_Atiende" Relationship="Self.fk_Id_Paciente_Atiende" FromRole="Paciente" ToRole="Terapeuta_Atiende" />
+          <NavigationProperty Name="Paciente_Tiene" Relationship="Self.fk_Id_Paciente_Tiene" FromRole="Paciente" ToRole="Paciente_Tiene" />
+        </EntityType>
+        <EntityType Name="Paciente_Tiene">
+          <Key>
+            <PropertyRef Name="Id_PacienteTiene" />
+          </Key>
+          <Property Name="Id_PacienteTiene" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_Id_Paciente" Type="Int32" Nullable="false" />
+          <Property Name="FK_Id_Expediente" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Expediente" Relationship="Self.fk_Id_Expediente_Tiene" FromRole="Paciente_Tiene" ToRole="Expediente" />
+          <NavigationProperty Name="Paciente" Relationship="Self.fk_Id_Paciente_Tiene" FromRole="Paciente_Tiene" ToRole="Paciente" />
+        </EntityType>
+        <EntityType Name="SolicitudAtencion">
+          <Key>
+            <PropertyRef Name="Id_SolicitudAtencion" />
+          </Key>
+          <Property Name="Id_SolicitudAtencion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PerVive" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MotivoConsulta" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="HistoriaCaso" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PruebasAplicadas" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre_EstudianteApoyo" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Expediente_Compuesto_por" Relationship="Self.fk_Id_SolicitudAtencion_SeConforma" FromRole="SolicitudAtencion" ToRole="Expediente_Compuesto_por" />
+        </EntityType>
+        <EntityType Name="Terapeuta">
+          <Key>
+            <PropertyRef Name="Id_Terapeuta" />
+          </Key>
+          <Property Name="Id_Terapeuta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Organizacion" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Matricula" Type="String" MaxLength="17" FixedLength="false" Unicode="false" />
+          <Property Name="Universidad" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Grado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido_Paterno" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido_Materno" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
+          <Property Name="Escolaridad" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Terapeuta_Realiza" Relationship="Self.fk_Id_Terapeuta" FromRole="Terapeuta" ToRole="Terapeuta_Realiza" />
+          <NavigationProperty Name="Terapeuta_Atiende" Relationship="Self.fk_Id_Terapeuta_Atiende" FromRole="Terapeuta" ToRole="Terapeuta_Atiende" />
+        </EntityType>
+        <EntityType Name="Terapeuta_Atiende">
+          <Key>
+            <PropertyRef Name="Id_Atiende" />
+          </Key>
+          <Property Name="Id_Atiende" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_Id_Terapeuta" Type="Int32" Nullable="false" />
+          <Property Name="FK_Id_Paciente" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Paciente" Relationship="Self.fk_Id_Paciente_Atiende" FromRole="Terapeuta_Atiende" ToRole="Paciente" />
+          <NavigationProperty Name="Terapeuta" Relationship="Self.fk_Id_Terapeuta_Atiende" FromRole="Terapeuta_Atiende" ToRole="Terapeuta" />
+        </EntityType>
+        <EntityType Name="Terapeuta_Realiza">
+          <Key>
+            <PropertyRef Name="Id_TerapeutaRealiza" />
+          </Key>
+          <Property Name="Id_TerapeutaRealiza" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_Id_Terapeuta" Type="Int32" Nullable="false" />
+          <Property Name="FK_Id_Expediente" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Expediente" Relationship="Self.fk_Id_Expediente" FromRole="Terapeuta_Realiza" ToRole="Expediente" />
+          <NavigationProperty Name="Terapeuta" Relationship="Self.fk_Id_Terapeuta" FromRole="Terapeuta_Realiza" ToRole="Terapeuta" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="fk_Id_Expediente">
+          <End Role="Expediente" Type="Self.Expediente" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Terapeuta_Realiza" Type="Self.Terapeuta_Realiza" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Expediente">
+              <PropertyRef Name="Id_Expediente" />
+            </Principal>
+            <Dependent Role="Terapeuta_Realiza">
+              <PropertyRef Name="FK_Id_Expediente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Id_Expediente_SeConforma">
+          <End Role="Expediente" Type="Self.Expediente" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Expediente_Compuesto_por" Type="Self.Expediente_Compuesto_por" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Expediente">
+              <PropertyRef Name="Id_Expediente" />
+            </Principal>
+            <Dependent Role="Expediente_Compuesto_por">
+              <PropertyRef Name="FK_Id_Expediente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Id_Expediente_Tiene">
+          <End Role="Expediente" Type="Self.Expediente" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Paciente_Tiene" Type="Self.Paciente_Tiene" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Expediente">
+              <PropertyRef Name="Id_Expediente" />
+            </Principal>
+            <Dependent Role="Paciente_Tiene">
+              <PropertyRef Name="FK_Id_Expediente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Id_SolicitudAtencion_SeConforma">
+          <End Role="SolicitudAtencion" Type="Self.SolicitudAtencion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Expediente_Compuesto_por" Type="Self.Expediente_Compuesto_por" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SolicitudAtencion">
+              <PropertyRef Name="Id_SolicitudAtencion" />
+            </Principal>
+            <Dependent Role="Expediente_Compuesto_por">
+              <PropertyRef Name="FK_Id_SolicitudAtencion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Id_Paciente_Atiende">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Terapeuta_Atiende" Type="Self.Terapeuta_Atiende" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="Id_Paciente" />
+            </Principal>
+            <Dependent Role="Terapeuta_Atiende">
+              <PropertyRef Name="FK_Id_Paciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Id_Paciente_Tiene">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Paciente_Tiene" Type="Self.Paciente_Tiene" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="Id_Paciente" />
+            </Principal>
+            <Dependent Role="Paciente_Tiene">
+              <PropertyRef Name="FK_Id_Paciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Id_Terapeuta">
+          <End Role="Terapeuta" Type="Self.Terapeuta" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Terapeuta_Realiza" Type="Self.Terapeuta_Realiza" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Terapeuta">
+              <PropertyRef Name="Id_Terapeuta" />
+            </Principal>
+            <Dependent Role="Terapeuta_Realiza">
+              <PropertyRef Name="FK_Id_Terapeuta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Id_Terapeuta_Atiende">
+          <End Role="Terapeuta" Type="Self.Terapeuta" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Terapeuta_Atiende" Type="Self.Terapeuta_Atiende" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Terapeuta">
+              <PropertyRef Name="Id_Terapeuta" />
+            </Principal>
+            <Dependent Role="Terapeuta_Atiende">
+              <PropertyRef Name="FK_Id_Terapeuta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PRATNEEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Expediente" EntityType="Self.Expediente" />
+          <EntitySet Name="Expediente_Compuesto_por" EntityType="Self.Expediente_Compuesto_por" />
+          <EntitySet Name="Paciente" EntityType="Self.Paciente" />
+          <EntitySet Name="Paciente_Tiene" EntityType="Self.Paciente_Tiene" />
+          <EntitySet Name="SolicitudAtencion" EntityType="Self.SolicitudAtencion" />
+          <EntitySet Name="Terapeuta" EntityType="Self.Terapeuta" />
+          <EntitySet Name="Terapeuta_Atiende" EntityType="Self.Terapeuta_Atiende" />
+          <EntitySet Name="Terapeuta_Realiza" EntityType="Self.Terapeuta_Realiza" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <AssociationSet Name="fk_Id_Expediente" Association="Self.fk_Id_Expediente">
+            <End Role="Expediente" EntitySet="Expediente" />
+            <End Role="Terapeuta_Realiza" EntitySet="Terapeuta_Realiza" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Id_Expediente_SeConforma" Association="Self.fk_Id_Expediente_SeConforma">
+            <End Role="Expediente" EntitySet="Expediente" />
+            <End Role="Expediente_Compuesto_por" EntitySet="Expediente_Compuesto_por" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Id_Expediente_Tiene" Association="Self.fk_Id_Expediente_Tiene">
+            <End Role="Expediente" EntitySet="Expediente" />
+            <End Role="Paciente_Tiene" EntitySet="Paciente_Tiene" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Id_SolicitudAtencion_SeConforma" Association="Self.fk_Id_SolicitudAtencion_SeConforma">
+            <End Role="SolicitudAtencion" EntitySet="SolicitudAtencion" />
+            <End Role="Expediente_Compuesto_por" EntitySet="Expediente_Compuesto_por" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Id_Paciente_Atiende" Association="Self.fk_Id_Paciente_Atiende">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Terapeuta_Atiende" EntitySet="Terapeuta_Atiende" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Id_Paciente_Tiene" Association="Self.fk_Id_Paciente_Tiene">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Paciente_Tiene" EntitySet="Paciente_Tiene" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Id_Terapeuta" Association="Self.fk_Id_Terapeuta">
+            <End Role="Terapeuta" EntitySet="Terapeuta" />
+            <End Role="Terapeuta_Realiza" EntitySet="Terapeuta_Realiza" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Id_Terapeuta_Atiende" Association="Self.fk_Id_Terapeuta_Atiende">
+            <End Role="Terapeuta" EntitySet="Terapeuta" />
+            <End Role="Terapeuta_Atiende" EntitySet="Terapeuta_Atiende" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PRATNEModelStoreContainer" CdmEntityContainer="PRATNEEntities">
+          <EntitySetMapping Name="Expediente">
+            <EntityTypeMapping TypeName="PRATNEModel.Expediente">
+              <MappingFragment StoreEntitySet="Expediente">
+                <ScalarProperty Name="Id_Expediente" ColumnName="Id_Expediente" />
+                <ScalarProperty Name="Estado_Paciente" ColumnName="Estado_Paciente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Expediente_Compuesto_por">
+            <EntityTypeMapping TypeName="PRATNEModel.Expediente_Compuesto_por">
+              <MappingFragment StoreEntitySet="Expediente_Compuesto_por">
+                <ScalarProperty Name="Id_Se_Conforma_Por" ColumnName="Id_Se_Conforma_Por" />
+                <ScalarProperty Name="FK_Id_Expediente" ColumnName="FK_Id_Expediente" />
+                <ScalarProperty Name="FK_Id_SolicitudAtencion" ColumnName="FK_Id_SolicitudAtencion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paciente">
+            <EntityTypeMapping TypeName="PRATNEModel.Paciente">
+              <MappingFragment StoreEntitySet="Paciente">
+                <ScalarProperty Name="Id_Paciente" ColumnName="Id_Paciente" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido_Paterno" ColumnName="Apellido_Paterno" />
+                <ScalarProperty Name="Apellido_Materno" ColumnName="Apellido_Materno" />
+                <ScalarProperty Name="Edad" ColumnName="Edad" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="FechaNa" ColumnName="FechaNa" />
+                <ScalarProperty Name="Escolaridad" ColumnName="Escolaridad" />
+                <ScalarProperty Name="DireccionPost" ColumnName="DireccionPost" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Padecimiento" ColumnName="Padecimiento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paciente_Tiene">
+            <EntityTypeMapping TypeName="PRATNEModel.Paciente_Tiene">
+              <MappingFragment StoreEntitySet="Paciente_Tiene">
+                <ScalarProperty Name="Id_PacienteTiene" ColumnName="Id_PacienteTiene" />
+                <ScalarProperty Name="FK_Id_Paciente" ColumnName="FK_Id_Paciente" />
+                <ScalarProperty Name="FK_Id_Expediente" ColumnName="FK_Id_Expediente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SolicitudAtencion">
+            <EntityTypeMapping TypeName="PRATNEModel.SolicitudAtencion">
+              <MappingFragment StoreEntitySet="SolicitudAtencion">
+                <ScalarProperty Name="Id_SolicitudAtencion" ColumnName="Id_SolicitudAtencion" />
+                <ScalarProperty Name="PerVive" ColumnName="PerVive" />
+                <ScalarProperty Name="MotivoConsulta" ColumnName="MotivoConsulta" />
+                <ScalarProperty Name="HistoriaCaso" ColumnName="HistoriaCaso" />
+                <ScalarProperty Name="PruebasAplicadas" ColumnName="PruebasAplicadas" />
+                <ScalarProperty Name="Nombre_EstudianteApoyo" ColumnName="Nombre_EstudianteApoyo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Terapeuta">
+            <EntityTypeMapping TypeName="PRATNEModel.Terapeuta">
+              <MappingFragment StoreEntitySet="Terapeuta">
+                <ScalarProperty Name="Id_Terapeuta" ColumnName="Id_Terapeuta" />
+                <ScalarProperty Name="Organizacion" ColumnName="Organizacion" />
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+                <ScalarProperty Name="Universidad" ColumnName="Universidad" />
+                <ScalarProperty Name="Grado" ColumnName="Grado" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido_Paterno" ColumnName="Apellido_Paterno" />
+                <ScalarProperty Name="Apellido_Materno" ColumnName="Apellido_Materno" />
+                <ScalarProperty Name="Escolaridad" ColumnName="Escolaridad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Terapeuta_Atiende">
+            <EntityTypeMapping TypeName="PRATNEModel.Terapeuta_Atiende">
+              <MappingFragment StoreEntitySet="Terapeuta_Atiende">
+                <ScalarProperty Name="Id_Atiende" ColumnName="Id_Atiende" />
+                <ScalarProperty Name="FK_Id_Terapeuta" ColumnName="FK_Id_Terapeuta" />
+                <ScalarProperty Name="FK_Id_Paciente" ColumnName="FK_Id_Paciente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Terapeuta_Realiza">
+            <EntityTypeMapping TypeName="PRATNEModel.Terapeuta_Realiza">
+              <MappingFragment StoreEntitySet="Terapeuta_Realiza">
+                <ScalarProperty Name="Id_TerapeutaRealiza" ColumnName="Id_TerapeutaRealiza" />
+                <ScalarProperty Name="FK_Id_Terapeuta" ColumnName="FK_Id_Terapeuta" />
+                <ScalarProperty Name="FK_Id_Expediente" ColumnName="FK_Id_Expediente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="PRATNEModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

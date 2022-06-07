@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+@Styles.Render("~/Content/Layout/css")
+
+<section class="access">
+    <div class="container-access">
+        <h2>Inicio de Sesion a SISPRATNE</h2>
+        <form id="frm">
+            <input type="text" name="userName" class="user" placeholder="Usuario:" />
+            <input type="password" name="password" class="password" placeholder="Contraseña" />
+            <a href="#" class="link">¿Olvidaste tu contraseña?</a>
+            <button type="submit" class="login">
+                <span>Entrar</span>
+            </button>
+        </form>
+    </div>
+</section>
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            $("#frm").submit(function (e) {
+                e.preventDefault();
+
+                url = "@Url.Content("~/Access/Enter")"
+                parametros = $(this).serialize();
+
+                $.post(url, parametros, function (data) {
+                    if (data == "1") {
+                        document.location.href = "@Url.Content("~/")";
+                        alert("Bienvenido!!");
+                    } else {
+                        alert(data);
+                    }
+                })
+            })
+
+        })
+    </script>
+}
+
+<style>
+    .access{
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container-access {
+        background-color: floralwhite;
+        width: 400px;
+        padding: 30px;
+        border-radius: 4px;
+        font-family: Corbel;
+        color: black;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 0 20px 5px darkgray;
+    }
+
+    .container-access h2{
+        text-align: center;
+    }
+
+    .container-access #frm{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .container-access #frm input {
+            width: 90%;
+            margin: 0 auto;
+            background: #F0D9C2;
+            padding: 10px;
+            border-radius: 4px;
+            color: black;
+            margin-bottom: 16px;
+            border: 1px solid rgba(63, 36, 28, 0);
+            font-family: Corbel;
+            font-size: 18px;
+        }
+
+        .container-access #frm .login {
+            width: 100%;
+            background: #F0D9C2;
+            border: none;
+            padding: 20px;
+            color: black;
+            margin: 19px 0;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+    .access a {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>

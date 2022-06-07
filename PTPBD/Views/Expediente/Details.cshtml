@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Details";
+    PTPBD.Models.Paciente paciente = ViewBag.Paciente;
+    PTPBD.Models.Paciente_Tiene paciente_Tiene = ViewBag.PacienteTiene;
+    @model PTPBD.Models.Expediente
+}
+
+<section class="index-container">
+    <div class="container-details">
+        <h2>Detalles del Expediente</h2>
+        <span class="">ID del paciente: @paciente.Id_Paciente</span>
+        <span class="">ID del expediente: @Model.Id_Expediente</span>
+        <span class="">Nombre: @paciente.Nombre @paciente.Apellido_Paterno @paciente.Apellido_Materno</span>
+        <span class="">Padecimiento: @paciente.Padecimiento</span>
+
+    </div>
+
+    <div class="container-btn">
+        <input onclick="document.location.href = '@Url.Content("~/Expediente/AsignarTerapeuta/" + Model.Id_Expediente)'" type="button" value="Asignar Terapeuta" />
+        <input onclick="document.location.href = '@Url.Content("~/Paciente/Details/" + paciente_Tiene.FK_Id_Paciente)'" type="button" value="Regresar al paciente" />
+    </div>
+</section>

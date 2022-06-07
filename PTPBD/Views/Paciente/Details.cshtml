@@ -1,0 +1,66 @@
+﻿@model PTPBD.Models.Paciente
+@{
+    ViewBag.Title = "Detalles del paciente";
+}
+
+<section class="index-container">
+    <div class="container-details">
+        <h2>Detalles del Paciente</h2>
+        <span class="">ID: @Model.Id_Paciente</span>
+        <span class="">Nombre: @Model.Nombre @Model.Apellido_Paterno @Model.Apellido_Materno</span>
+        <span class="">Edad: @Model.Edad</span>
+        <span class="">Fecha de nacimiento: @Convert.ToDateTime(Model.FechaNa).ToString("yyyy-MM-dd")</span>
+        <span class="">Escolaridad: @Model.Escolaridad</span>
+        <span class="">Direccion postal: @Model.DireccionPost</span>
+        <span class="">Padecimiento: @Model.Padecimiento</span>
+
+    </div>
+
+    <div class="container-btn">
+        <input onclick="document.location.href = '@Url.Content("~/Paciente/Edit/"+ Model.Id_Paciente)'" type="button" value="Editar" />
+
+        @*@using (Html.BeginForm("Details", "Expediente", FormMethod.Post))
+            {
+                @Html.HiddenFor(model => model.Id_Paciente)
+                @Html.HiddenFor(model => model.Nombre)
+                @Html.HiddenFor(model => model.Apellido_Paterno)
+                @Html.HiddenFor(model => model.Apellido_Materno)
+                @Html.HiddenFor(model => model.Edad)
+                @Html.HiddenFor(model => model.FechaNa)
+                @Html.HiddenFor(model => model.Padecimiento)
+                @Html.HiddenFor(model => model.DireccionPost)
+                @Html.HiddenFor(model => model.Escolaridad)
+
+                @Html.AntiForgeryToken()
+                <input type="submit" value="Ver expediente" />
+            }*@
+        @*<input onclick="document.location.href = '@Url.Content("~/Expediente/Details/" + Model.Id_Paciente)'" type="button" value="Ver expediente" />*@
+    </div>
+    <input onclick="document.location.href = '@Url.Content("~/Paciente/Index")'" type="button" value="Regresar a la lista" />
+
+</section>
+
+<style>
+    .index-container {
+        width: 80%;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 5px;
+    }
+
+        .index-container .container-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+    .container-details h2 {
+        text-align: center;
+    }
+
+    .container-details span {
+        margin: 10px 0;
+        font-size: 18px;
+    }
+</style>
+

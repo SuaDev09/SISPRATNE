@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - SISPRATNE</title>
+    @Styles.Render("~/Content/Layout/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class="body-collapsed">
+    
+    <div id="sidemenu" class="menu-collapsed">
+        <div id="header">
+            <div id="title">
+
+            </div>
+            <div id="menu-btn">
+                <div class="btn-hamburguer"></div>
+                <div class="btn-hamburguer"></div>
+                <div class="btn-hamburguer"></div>
+            </div>
+        </div>
+
+        <div id="logo">
+            <div id="photo">
+                <img src="~/Content/imgs/Logo_de_la_UABC.svg.png" />
+            </div>
+            <div id="name">
+                <span>SISPRATNE</span>
+            </div>
+        </div>
+
+        <div id="menu-items">
+            <div class="item">
+                <a href='@Url.Action("Index", "Home")'>
+                    <div class="icon">
+                        <img src="~/Content/imgs/pagina-de-inicio2.png" />
+                    </div>
+                    <div class="title">
+                        <span>INICIO</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="item separator"></div>
+
+            <div class="item">
+                <a href='@Url.Action("Index", "Expediente")'>
+                    <div class="icon">
+                        <img src="~/Content/imgs/carpeta-vacia2.png" />
+                    </div>
+                    <div class="title">
+                        <span>EXPEDIENTES</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="item separator"></div>
+
+            <div class="item">
+                <a href='@Url.Action("Index", "Home")'>
+                    <div class="icon">
+                        <img src="~/Content/imgs/buscar2.png" />
+                    </div>
+                    <div class="title">
+                        <span>CONSULTAR</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="item separator"></div>
+
+            <div class="item">
+                <a href='@Url.Action("Index", "Home")'>
+                    <div class="icon">
+                        <img src="~/Content/imgs/calendario2.png" />
+                    </div>
+                    <div class="title">
+                        <span>CITAS</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="item separator"></div>
+
+            <div class="item">
+                <a href='@Url.Action("Logoff", "Close")'>
+                    <div class="icon">
+                        <img src="~/Content/imgs/salida2.png" />
+                    </div>
+                    <div class="title">
+                        <span>SALIR</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - SISPRATNE</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script>
+        const btn = document.querySelector('#menu-btn');
+        const menu = document.querySelector('#sidemenu');
+        const logo = document.getElementById('logo');
+        logo.style.display = "none";
+
+        btn.addEventListener('click', e => {
+            menu.classList.toggle("menu-expanded");
+            menu.classList.toggle("menu-collapsed");
+
+            if (logo.style.display == "block") {
+                logo.style.display = "none";
+            } else {
+                logo.style.display = "block";
+            }
+
+            document.querySelector('body').classList.toggle('body-expanded');
+        });
+    </script>
+</body>
+</html>

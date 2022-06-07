@@ -1,0 +1,106 @@
+﻿
+@model List<PTPBD.Models.TableViewModels.TerapeutaTableViewModel>
+@{
+    ViewBag.Title = "Terapeutas";
+}
+
+<section class="index-container">
+    <div class="container">
+        <h2>Terapeutas</h2>
+        <div class="container-btn">
+            <div>
+                <input type="button" class=" " onclick="document.location.href ='@Url.Content("~/Terapeuta/Add")'" value="Agregar nuevo terapeuta" />
+            </div>
+        </div>
+
+        <div class="container-table">
+            <table class="table">
+                <tr>
+                    <th class="column1">Id</th>
+                    <th class="column2">Nombre</th>
+                    <th class="column3">Organizacion</th>
+                    <th class="column4">Grado</th>
+                    <th class="column5">Escolaridad</th>
+                    <th class="column6">Universidad</th>
+                    <th class="column7">Matricula</th>
+                    <th class="column8">Acciones</th>
+                </tr>
+
+                @foreach (var oElemento in Model)
+                {
+                    <tr>
+                        <td>@oElemento.Id_Terapeuta.ToString()</td>
+                        <td>@oElemento.Nombre @oElemento.Apellido_Paterno @oElemento.Apellido_Materno</td>
+                        <td>@oElemento.Organizacion</td>
+                        <td>@oElemento.Grado</td>
+                        <td>@oElemento.Escolaridad</td>
+                        <td>@oElemento.Universidad</td>
+                        <td>@oElemento.Matricula</td>
+
+                        <td class="column8-btn">
+                            <input onclick="document.location.href = '@Url.Content("~/Terapeuta/Details/" + oElemento.Id_Terapeuta)'" type="button" value="Ver" />
+                            <input onclick="jsDelete(@oElemento.Id_Terapeuta);" type="button" value="Eliminar" />
+                            <input onclick="document.location.href = '@Url.Content("~/Terapeuta/Edit/" + oElemento.Id_Terapeuta)'" type="button" value="Editar" />
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+    <input onclick="document.location.href = '@Url.Content("~/")'" type="button" value="Regresar" />
+
+</section>
+
+<script>
+    function jsDelete(id) {
+        if (confirm("¿Estas seguro de eliminar este terapeuta?")) {
+            url = "@Url.Content("~/Terapeuta/Delete")" + "/" + id;
+
+            //Peticion AJAX por post que tiene un callback
+            //data sera regresado al metodo post
+            $.post(url, function (data) {
+                if (data == "1") {
+                    document.location.href = "@Url.Content("~/Terapeuta")";
+                } else {
+                    alert("Ha ocurrido un error.")
+                }
+            })
+        }
+    }
+</script>
+
+
+<style>
+    .index-container {
+        width: 80%;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 0 20px 5px darkgray;
+    }
+
+        .index-container .container {
+            display: flex;
+            flex-direction: column;
+        }
+
+    .table {
+        width: 100%;
+        border-radius: 5px;
+        margin: 20px 0;
+    }
+
+        .table tr th {
+            background-color: darkcyan;
+            color: white;
+        }
+
+        .table tr .column8-btn {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around
+        }
+</style>
+
+

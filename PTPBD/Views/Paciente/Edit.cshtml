@@ -1,0 +1,100 @@
+﻿@model PTPBD.Models.Paciente
+
+@{
+    ViewBag.Title = "Editar paciente";
+}
+
+<section class="index-container">
+    <div class="container">
+        <h2>Editar paciente</h2>
+
+        <div id="form" class="container-formulario">
+            @using (Html.BeginForm("Edit", "Paciente", FormMethod.Post, new { role = "form", @class = "" }))
+            {
+                @Html.HiddenFor(model => model.Id_Paciente)
+                @Html.AntiForgeryToken()
+                <span class="formulario-titulo">Nombre:</span>
+                @Html.TextBoxFor(model => model.Nombre, new { @class = "" })
+
+                <span class="formulario-titulo">Apellido paterno:</span>
+                @Html.TextBoxFor(model => model.Apellido_Paterno, new { @class = "" })
+
+                <span class="formulario-titulo">Apellido Materno:</span>
+                @Html.TextBoxFor(model => model.Apellido_Materno, new { @class = "" })
+
+                <span class="formulario-titulo">Edad:</span>
+                @Html.TextBoxFor(model => model.Edad, new { @type = "number", @class = "" })
+
+                <span class="formulario-titulo">
+                    Genero:
+                    Hombre @Html.RadioButtonFor(model => model.Genero, "H", new { @class = "" })
+                    Mujer @Html.RadioButtonFor(model => model.Genero, "M", new { @class = "" })
+                </span>
+
+                <span class="formulario-titulo">Fecha de nacimiento:</span>
+                @Html.TextBoxFor(model => model.FechaNa, new { @type = "date", @class = "" })
+
+                <span class="formulario-titulo">Escolaridad:</span>
+                @Html.TextBoxFor(model => model.Escolaridad, new { @class = "" })
+
+                <span class="formulario-titulo">Direccion postal:</span>
+                @Html.TextBoxFor(model => model.DireccionPost, new { @type = "number", @class = "" })
+
+                <span class="formulario-titulo">Telefono:</span>
+                @Html.TextBoxFor(model => model.Telefono, new { @class = "" })
+
+                <span class="formulario-titulo">Padecimiento:</span>
+                @Html.TextBoxFor(model => model.Padecimiento, new { @class = "" })
+
+                <div class="formulario-elements">
+                    <span class="formulario-titulo">Asignar terapeuta:</span>
+                    @Html.DropDownList("FK_Id_Terapeuta", null, htmlAttributes: new { @class = "formulario-control" })
+                </div>
+                <div>
+                    <input type="submit" class="btn-save" value="Guardar" />
+                    <input onclick="document.location.href = '@Url.Content("~/Paciente/Index")'" type="button" value="Regresar" />
+                </div>
+            }
+        </div>
+        
+    </div>
+</section>
+
+
+<style>
+    .index-container {
+        width: 70%;
+        margin: 0 auto;
+        padding: 30px;
+    }
+
+        .index-container .container {
+            width: 100%;
+            border-radius: 10px;
+            padding: 30px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 20px 5px darkgray;
+        }
+
+            .index-container .container h2 {
+                text-align: center;
+            }
+
+    .formulario-elements {
+        display: flex;
+        flex-direction: column;
+    }
+
+        .formulario-elements input {
+            margin: 20px 0;
+            height: 20px;
+            padding: 5px;
+        }
+
+        .formulario-elements select {
+            margin: 20px 0;
+            padding: 5px;
+        }
+</style>
